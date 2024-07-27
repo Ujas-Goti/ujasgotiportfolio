@@ -40,7 +40,7 @@ const Home = () => {
 					<p className='mt-5 text-2xl'>That curious Tech Developer/Enthusiast/Entrepreneur.</p>
 				</div>      
 			</div>
-			<Footer/>
+			
 		</div>	
 	);
 }

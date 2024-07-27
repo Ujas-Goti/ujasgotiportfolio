@@ -51,8 +51,8 @@
 }
 
 .area {
-	background: #d7e240;
-	background: -webkit-linear-gradient(to left, #84a738, #cbec39);
+	background: #000000;
+	background: -webkit-linear-gradient(to left, #2e2f2c0c, #111110);
 	width: 100%;
 	height: 100vh;
 	position: absolute;

@@ -136,7 +136,7 @@ const Contact = () => {
 				<ToastContainer />
 			
 			</div>
-		<Footer/>
+		
         </div>
 	);
 };
