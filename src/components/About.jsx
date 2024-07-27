@@ -43,7 +43,6 @@ const About = () => {
               <br />
               <div className='text-center'>
               <ButtonLink
-              
               url='https://drive.google.com/file/d/1Yc1jFY6lUa0Knt1KN43hrdZSJqSOVrVW/view?usp=sharing'
               text='View Resume →'
               padding={`p-3`}
