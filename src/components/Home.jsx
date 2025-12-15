@@ -29,7 +29,7 @@ const Home = () => {
 
 	// Tech Stack Component
 	const TechStackSection = () => (
-		<div id="tech-stack" className='bg-black text-white py-12 sm:py-20 px-4 sm:px-8 md:px-16'>
+		<div id="tech-stack" className='bg-transparent text-white py-12 sm:py-20 px-4 sm:px-8 md:px-16'>
 			<h2 className='text-3xl sm:text-4xl md:text-5xl font-extrabold mt-5 text-center mb-8 sm:mb-12 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600'>
 				Tech Stack
 			</h2>
@@ -95,7 +95,7 @@ const Home = () => {
 		};
 
 		return (
-			<div id="projects" className="bg-black pt-8 sm:pt-12 pb-12 sm:pb-20">
+			<div id="projects" className="bg-transparent pt-8 sm:pt-12 pb-12 sm:pb-20">
 				<div className='pt-8 sm:pt-12 px-4 sm:px-8 md:px-16'>
 					<h2 className='text-3xl sm:text-4xl md:text-5xl font-extrabold mt-5 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600'>
 						Projects
@@ -119,7 +119,7 @@ const Home = () => {
 
 	// Experience Section
 	const ExperienceSection = () => (
-		<div id="experience" className='experience bg-black w-screen text-white pt-4 sm:pt-16 overflow-x-hidden'>
+		<div id="experience" className='experience bg-transparent w-screen text-white pt-4 sm:pt-16 overflow-x-hidden'>
 			<div className='pt-8 sm:pt-12 px-4 sm:px-8 md:px-16'>
 				<h2 className='text-3xl sm:text-4xl md:text-5xl font-extrabold mt-5 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600'>
 					Work Experience
@@ -165,7 +165,7 @@ const Home = () => {
 
 	// About Section (Introduction only)
 	const AboutSection = () => (
-		<div id="about" className='bg-black h-full w-full text-white sm:flex sm:justify-around about py-8 sm:py-12 mt-8 overflow-x-hidden'>
+		<div id="about" className='bg-transparent h-full w-full text-white sm:flex sm:justify-around about py-8 sm:py-12 mt-8 overflow-x-hidden'>
 			<div className='flex flex-col justify-around'>
 				<div className='sm:px-8 md:px-16 px-4'>
 					<h2 className='text-3xl sm:text-4xl md:text-5xl font-extrabold mt-2 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-900'>
@@ -207,7 +207,7 @@ const Home = () => {
 
 	// Education Section
 	const EducationSection = () => (
-		<div id="education" className='bg-black text-white pt-8 sm:pt-12 pb-12 sm:pb-20 overflow-x-hidden'>
+		<div id="education" className='bg-transparent text-white pt-8 sm:pt-12 pb-12 sm:pb-20 overflow-x-hidden'>
 			<div className='pt-8 sm:pt-12 px-4 sm:px-8 md:px-16'>
 				<h2 className='text-3xl sm:text-4xl md:text-5xl font-extrabold mt-5 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600'>
 					Education
@@ -246,7 +246,7 @@ const Home = () => {
 
 	// Services Section (at the end)
 	const ServicesSection = () => (
-		<div className='bg-black h-full w-full text-white py-8 sm:py-12 mt-8 overflow-x-hidden'>
+		<div className='bg-transparent h-full w-full text-white py-8 sm:py-12 mt-8 overflow-x-hidden'>
 			<div className='mt-12 sm:mt-20 flex justify-center flex-wrap gap-4 sm:gap-7 px-4 sm:px-0'>
 				{services.map((service, index) => (
 					<div key={index} className='w-full sm:w-[250px] max-w-[250px]'>
@@ -265,9 +265,9 @@ const Home = () => {
 	);
 
 	return (
-		<div className='bg-black'>
+		<div className='bg-transparent relative z-10'>
 			{/* 1. Hero Section with Name Animation */}
-			<div id="hero" className='area bg-black w-screen h-screen relative'>
+			<div id="hero" className='area bg-transparent w-screen h-screen relative z-10'>
 				<ul className="circles">
 					{Array.from({ length: 10 }).map((_, i) => <li key={i}></li>)}
 				</ul>
