@@ -51,7 +51,7 @@ const Contact = () => {
 					from_name: username,
 					to_name: "Ujas Goti",
 					reply_to: user_email,
-					to_email: "ujaskgoti@gmail.com",
+					to_email: "ugoti@horizon.csueastbay.edu",
 					message: user_message,
 				},
 				EMAIL_JS_PUBLIC_KEY

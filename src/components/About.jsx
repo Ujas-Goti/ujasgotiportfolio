@@ -36,14 +36,14 @@ const About = () => {
           <div className='sm:px-16 px-2'>
             <h2 className='text-4xl sm:text-5xl font-extrabold mt-2 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-900'>Introduction</h2>
             <br />
-            <p className='mt-3 mb-6 text-[20px] max-w-6xl text-justify leading-[35px]'>👨‍💻 Myself, Ujas Goti, originally from Surat, Gujarat - 🇮🇳, currently pursuing BS Computer Science at California State University, East Bay - CA.
+            <p className='mt-3 mb-6 text-[20px] max-w-6xl text-justify leading-[35px]'>👨‍💻 That Curious Tech Enthusiast - Aspiring SWE with experience in backend development, AI agents, and full-stack applications. Strong foundation in Java, Python, cloud technologies, and scalable system design.
               <br />
               <br />
-              🚀 As a passionate tech enthusiast, I specialize in backend development and possess a profound understanding of software structures and modern frameworks. I thrive on designing robust and scalable backend systems, leveraging languages like Python, Java, and C++. My commitment to staying up-to-date with emerging technologies allows me to adapt to the dynamic tech landscape. I look forward to contributing my expertise to innovative projects and collaborating with teams to bring cutting-edge solutions to fruition.</p>
+              🚀 Currently pursuing Bachelor of Science in Computer Science at California State University, East Bay (GPA: 3.74/4.0). Leadership experience through student tech organizations and hackathons, paired with hands-on development across mobile, web, and AI projects. I thrive on designing robust and scalable systems, leveraging modern frameworks and cloud technologies. My commitment to staying up-to-date with emerging technologies allows me to adapt to the dynamic tech landscape. I look forward to contributing my expertise to innovative projects and collaborating with teams to bring cutting-edge solutions to fruition.</p>
               <br />
               <div className='text-center'>
               <ButtonLink
-              url='https://drive.google.com/file/d/1Yc1jFY6lUa0Knt1KN43hrdZSJqSOVrVW/view?usp=sharing'
+              url='./Resume (9).pdf'
               text='View Resume →'
               padding={`p-3`}
             />
@@ -53,7 +53,7 @@ const About = () => {
             <br />
               <div className=' flex justify-around sm:w-auto w-full'>
 					
-					          <a href="mailto:ujaskgoti@gmail.com" className='transition ease-in-out duration-300 rounded-md hover:scale-110 cursor-pointer hover:-translate-y-1' style={{ cursor: 'pointer' }}>
+					          <a href="mailto:ugoti@horizon.csueastbay.edu" className='transition ease-in-out duration-300 rounded-md hover:scale-110 cursor-pointer hover:-translate-y-1' style={{ cursor: 'pointer' }}>
 						          <FiMail className='text-4xl' />
 					          </a>
                     <a href="https://www.instagram.com/ujas_goti_/" target='_blank' className='transition ease-in-out duration-300 rounded-md hover:scale-110 cursor-pointer hover:-translate-y-1' style={{ cursor: 'pointer' }}>

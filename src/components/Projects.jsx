@@ -12,17 +12,17 @@ const ProjectCard = ({ image,title,IDE, description, git, technologies }) => {
     return (
         
         <div className="max-w-sm sm:max-w-sm md:max-w-sm bg-gray-900 border border-neutral-100 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            {title=='COVID Vaccine Registration 💉' && <a href="#">
-                <img className="w-full rounded-t-lg h-auto object-cover " src={lay1}  alt="" />
+            {title=='Scalable Communication System 💬' && <a href="#">
+                <img className=" rounded-t-lg w-65 h-60 object-cover " src={proj2} alt="" />
+            </a>}
+            {title=='AI Agent-Based Automation Tool 🤖' && <a href="#">
+                <img className=" rounded-t-lg w-65 h-60 object-cover " src={proj2} alt="" />
             </a>}
             {title=='Dropout Analyzer for Primary Schools 🎒' && <a href="#">
                 <img className=" rounded-t-lg w-65 h-60 object-cover " src={drop} alt="" />
             </a>}
             {title=='Realtime Attendance Manager 📒' && <a href="#">
                 <img className=" rounded-t-lg w-65 h-60 object-cover " src={proj2} alt="" />
-            </a>}
-            {title=='PCBuild.com 🎮' && <a href="#">
-                <img className=" rounded-t-lg w-65 h-60 object-cover " src={pc} alt="" />
             </a>}
             <div className="p-4 sm:p-6">
                 <a href="#">
@@ -75,11 +75,26 @@ const Projects = () => {
 
 
 export const project = [
-    
+    {
+        title:'Scalable Communication System 💬',
+        IDE:'Java, TCP/IP Sockets, Eclipse IDE, Git, JUnit, SQL Database (planned)',
+        description:'Designing and developing a scalable client-server communication system supporting both real-time (synchronous) and delayed (asynchronous) messaging for 100 concurrent users and dynamically scalable client-server logic when there are 100+ users. Built with Java TCP/IP socket programming, enabling private and group chat with message throughput of 200+ messages per minute, along with notifications and secure conversation logging. Includes role-based access control for IT administrators vs. employees to support monitoring, logging, and compliance.',
+        image: {proj2},
+        git:'https://github.com/Ujas-Goti',
+        technologies:['Java','TCP/IP','Socket Programming','JUnit','SQL','Git']
+    },
+    {
+        title:'AI Agent-Based Automation Tool 🤖',
+        IDE:'Python, LangChain, Gemini/LLM APIs, Flask',
+        description:'Developed an AI agent to assist with code explanations, documentation generation, and troubleshooting, handling 50+ automated developer queries per session using LLM-based reasoning. Integrated LangChain with Gemini API to process both structured and unstructured prompts with over 90% response accuracy. Deployed a lightweight Flask interface enabling real-time interaction with under 2-second latency and seamless input handling.',
+        image: {proj2},
+        git:'https://github.com/Ujas-Goti',
+        technologies:['Python','LangChain','Gemini API','Flask','LLM','AI']
+    },
     {
         title:'Dropout Analyzer for Primary Schools 🎒',
         IDE:'Microsoft Visual Studio 2022, SQL Server Management Studio',
-        description:'Developed a web application for analyzing student dropout data using .NET Framework and ASP scripting.',
+        description:'Built a web dashboard to analyze 1000+ student dropout records across multiple schools. Integrated Google Charts and Gmail API to automate data reporting and email alerts for educators. Created custom SQL queries to reduce data retrieval time by 40%.',
         image: {drop},
         git:"https://github.com/Ujas-Goti/Diploma-Final-Year-Project",
         technologies:[ 'ASP.NET','SQL','C#','Google Chart','Gmail API']
@@ -87,26 +102,10 @@ export const project = [
     {
         title:'Realtime Attendance Manager 📒',
         IDE:'Android Studio, Firebase',
-        description:'Created a real-time student attendance tracking application.Implemented Firebase for real-time database management and used Java for backend functionality.',
+        description:'Built a mobile attendance tracking system used by 100+ students and faculty across multiple classes. Integrated Firebase to enable real-time syncing with 0 data conflicts and under 2-second update latency. Developed backend logic in Java and designed a responsive UI in XML, improving instructor tracking efficiency by 40%.',
         image: {proj2},
         git:'https://github.com/Ujas-Goti/Diploma_Android_Realtime_Attendance_Manager',
         technologies:['Android SDK','Java','Firebase','XML']
-    },
-    {
-        title:'PCBuild.com 🎮',
-        IDE:'Microsoft Visual Studio 2022, SQL Server Management Studio',
-        description:'Developed an e-commerce platform for custom PC configurations such as GPU, RAM, processor and SSDs for better gaming performances. Developed as a Diploma project for .NET.',
-        image: {proj2},
-        git:'https://github.com/Ujas-Goti/Diploma-Mini-Project-PcBuild.com',
-        technologies:['ASP Scripting','.NET','SQL','C#','JavaScript']
-    },
-    {
-        title:'COVID Vaccine Registration 💉',
-        IDE:'Microsoft Visual Studio Code, PHP Storm CE 2023, SQL Server Management Studio',
-        description:'Designed a comprehensive registration system inspired by www.cowin.gov.in and used SSMS for robust data management.',
-        image: {},
-        git:'https://github.com/Ujas-Goti/Diploma_PHP_MiniProject_COVID19_Vaccine_Registration_Site',
-        technologies:['PHP','SQL','XAMPP','CSS','JavaScript','Bootstrap']
     },
     
 ]
