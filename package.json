@@ -2,7 +2,7 @@
   "name": "ujas-portfolio",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://Ujas-Goti.github.io/ujasgotiportfolio",
+  "homepage": ".",
   "dependencies": {
     "@emailjs/browser": "^4.1.0",
     "@react-three/drei": "^9.97.5",
