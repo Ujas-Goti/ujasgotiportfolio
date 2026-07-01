@@ -21,13 +21,23 @@ const Experience = () => {
             date={experience.duration}
             iconStyle={{ background: '#fff' }}
             icon={
-              <a className='flex justify-center items-center w-full h-full' href={experience.url} target='_blank'>
-                <img
-                  src={experience.logo}
-                  alt={experience.company}
-                  className='w-[60%] h-[60%] object-contain'
-                />
-              </a>
+              experience.url ? (
+                <a className='flex justify-center items-center w-full h-full' href={experience.url} target='_blank' rel="noopener noreferrer">
+                  <img
+                    src={experience.icon}
+                    alt={experience.company}
+                    className='w-[60%] h-[60%] object-contain'
+                  />
+                </a>
+              ) : (
+                <div className='flex justify-center items-center w-full h-full'>
+                  <img
+                    src={experience.icon}
+                    alt={experience.company}
+                    className='w-[60%] h-[60%] object-contain'
+                  />
+                </div>
+              )
             }
           >
             <div>

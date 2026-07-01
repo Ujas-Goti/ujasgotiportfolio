@@ -1,6 +1,6 @@
 import React from 'react';
 import '../App.css';
-import { services } from '../constants';
+import { services, RESUME_URL } from '../constants';
 import ButtonLink from './ButtonLink';
 import Footer from './Footer';
 import { FaGithub, FaInstagram, FaTwitter } from 'react-icons/fa';
@@ -43,7 +43,7 @@ const About = () => {
               <br />
               <div className='text-center'>
               <ButtonLink
-              url='./Resume (9).pdf'
+              url={RESUME_URL}
               text='View Resume →'
               padding={`p-3`}
             />

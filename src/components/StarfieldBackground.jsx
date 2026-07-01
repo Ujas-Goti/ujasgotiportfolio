@@ -1,175 +1,157 @@
 import React, { useEffect, useRef } from "react";
 import "./StarfieldBackground.css";
 
+// Slow 3D starfield that lives ONLY behind the hero/header.
+// A gentle scroll-driven warp adds motion as you leave the hero, but the
+// canvas is one viewport tall so it never affects readability below.
 const StarfieldBackground = () => {
   const canvasRef = useRef(null);
-  const animationFrameRef = useRef(null);
-  const stars = useRef([]);
-  const mouse = useRef({ x: 0, y: 0, isMoving: false });
-  const mouseMoveTimeout = useRef(null);
-  const STAR_COUNT = 500; // More stars for swarm effect
-  const ATTRACTION_STRENGTH = 0.007; // Slower attraction strength
-  const ORBITAL_SPEED = 0.05; // Speed of circular orbit
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
-    const c = canvas.getContext("2d");
-    if (!c) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
-    // Set initial canvas size
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // Initialize stars with positions and velocities
-    stars.current = [];
-    for (let i = 0; i < STAR_COUNT; i++) {
-      stars.current.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.5, // Initial random velocity x
-        vy: (Math.random() - 0.5) * 0.5, // Initial random velocity y
-        baseX: Math.random() * canvas.width, // original position
-        baseY: Math.random() * canvas.height, // original position
-        angle: Math.random() * Math.PI * 2, // Random starting angle for orbit
-        driftAngle: Math.random() * Math.PI * 2, // Angle for continuous drift
-      });
-    }
+    const MAX_DEPTH = 1400;
+    const palette = ["#ffffff", "#ffffff", "#ffffff", "#cbe3ff", "#f3d0ff", "#b8f4ff"];
+
+    let w = 0, h = 0, cx = 0, cy = 0, dpr = 1, focal = 1;
+    let stars = [];
+    let raf = 0;
+    let scrollVel = 0;
+    let lastScrollY = window.scrollY || window.pageYOffset || 0;
+    const baseSpeed = reduced ? 0.05 : 0.16; // slow, calm drift
+
+    const makeStar = (randomZ) => ({
+      x: (Math.random() - 0.5) * w * 1.7,
+      y: (Math.random() - 0.5) * h * 1.7,
+      z: randomZ ? Math.random() * MAX_DEPTH + 1 : MAX_DEPTH,
+      px: 0,
+      py: 0,
+      init: false,
+      color: palette[(Math.random() * palette.length) | 0],
+    });
 
     const resize = () => {
-      if (!canvas) return;
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = window.innerWidth;
+      h = window.innerHeight;
+      cx = w / 2;
+      cy = h / 2;
+      focal = Math.min(w, h) * 0.9;
+      canvas.width = Math.floor(w * dpr);
+      canvas.height = Math.floor(h * dpr);
+      canvas.style.width = w + "px";
+      canvas.style.height = h + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const density = Math.min(1, (w * h) / (1920 * 1080));
+      const count = Math.round((reduced ? 150 : 460) * (0.45 + density * 0.65));
+      stars = new Array(count).fill(0).map(() => makeStar(true));
+
+      ctx.fillStyle = "#05060f";
+      ctx.fillRect(0, 0, w, h);
     };
 
-    const handlePointerMove = (e) => {
-      mouse.current.x = e.clientX;
-      mouse.current.y = e.clientY;
-      mouse.current.isMoving = true;
-      
-      // Clear existing timeout
-      if (mouseMoveTimeout.current) {
-        clearTimeout(mouseMoveTimeout.current);
+    const onScroll = () => {
+      const y = window.scrollY || window.pageYOffset || 0;
+      const d = y - lastScrollY;
+      lastScrollY = y;
+      if (reduced) return;
+      scrollVel += d * 0.55;
+      if (scrollVel > 620) scrollVel = 620;
+      if (scrollVel < -620) scrollVel = -620;
+    };
+    const onWheel = (e) => {
+      if (reduced) return;
+      scrollVel += e.deltaY * 0.35;
+      if (scrollVel > 620) scrollVel = 620;
+      if (scrollVel < -620) scrollVel = -620;
+    };
+
+    const frame = () => {
+      const speed = baseSpeed + scrollVel;
+      const absSpeed = Math.abs(speed);
+
+      const trailAlpha = Math.max(0.14, 0.32 - absSpeed * 0.0006);
+      ctx.fillStyle = `rgba(5,6,15,${trailAlpha})`;
+      ctx.fillRect(0, 0, w, h);
+
+      scrollVel *= 0.9;
+      if (Math.abs(scrollVel) < 0.01) scrollVel = 0;
+
+      ctx.lineCap = "round";
+
+      for (let i = 0; i < stars.length; i++) {
+        const s = stars[i];
+        s.z -= speed;
+
+        if (s.z < 1) {
+          const ns = makeStar(false);
+          ns.z = MAX_DEPTH;
+          stars[i] = ns;
+          continue;
+        }
+        if (s.z > MAX_DEPTH) {
+          const ns = makeStar(false);
+          ns.z = 1;
+          stars[i] = ns;
+          continue;
+        }
+
+        const f = focal / s.z;
+        const sx = cx + s.x * f;
+        const sy = cy + s.y * f;
+        const depth = 1 - s.z / MAX_DEPTH;
+        const size = Math.max(0.4, depth * 2.2);
+        const alpha = Math.min(1, depth * 1.4 + 0.15);
+
+        if (!s.init) {
+          s.px = sx;
+          s.py = sy;
+          s.init = true;
+        }
+
+        ctx.globalAlpha = alpha;
+        ctx.strokeStyle = s.color;
+        ctx.lineWidth = size;
+        ctx.beginPath();
+        ctx.moveTo(s.px, s.py);
+        ctx.lineTo(sx, sy);
+        ctx.stroke();
+
+        ctx.globalAlpha = Math.min(1, alpha + 0.2);
+        ctx.fillStyle = s.color;
+        ctx.beginPath();
+        ctx.arc(sx, sy, size * 0.6, 0, Math.PI * 2);
+        ctx.fill();
+
+        s.px = sx;
+        s.py = sy;
       }
-      
-      // Set mouse as not moving after 100ms of no movement
-      mouseMoveTimeout.current = setTimeout(() => {
-        mouse.current.isMoving = false;
-      }, 100);
+
+      ctx.globalAlpha = 1;
+      raf = requestAnimationFrame(frame);
     };
 
-    const update = () => {
-      if (!canvas || !c) return;
-      
-      const w = canvas.width;
-      const h = canvas.height;
-
-      // Clear canvas with black background
-      c.fillStyle = "#000000";
-      c.fillRect(0, 0, w, h);
-
-      // Update and draw stars
-      stars.current.forEach((star) => {
-        // Calculate direction to mouse
-        const dx = mouse.current.x - star.x;
-        const dy = mouse.current.y - star.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-
-        // All stars follow mouse when it's moving
-        if (mouse.current.isMoving && distance > 5) {
-          // Calculate angle to mouse
-          const angleToMouse = Math.atan2(dy, dx);
-          
-          // Update orbital angle for circular motion (each star has its own phase)
-          star.angle += ORBITAL_SPEED;
-          
-          // Create circular orbit pattern - perpendicular force (tangential)
-          // This creates the circular/swirling motion
-          const tangentialAngle = angleToMouse + Math.PI / 2 + star.angle; // Perpendicular + phase
-          const tangentialForce = ATTRACTION_STRENGTH * 3;
-          
-          // Apply tangential (circular) force - this makes stars orbit
-          star.vx += Math.cos(tangentialAngle) * tangentialForce;
-          star.vy += Math.sin(tangentialAngle) * tangentialForce;
-          
-          // Add slight radial attraction to keep stars near mouse (but weaker)
-          star.vx += dx * ATTRACTION_STRENGTH * 0.2;
-          star.vy += dy * ATTRACTION_STRENGTH * 0.2;
-        } else {
-          // Continuous drift movement when mouse is not moving
-          star.driftAngle += 0.01; // Slowly change drift direction
-          const driftSpeed = 0.15;
-          star.vx += Math.cos(star.driftAngle) * driftSpeed * 0.01;
-          star.vy += Math.sin(star.driftAngle) * driftSpeed * 0.01;
-          
-          // Also add slight attraction to base position to prevent stars from drifting too far
-          const returnDx = star.baseX - star.x;
-          const returnDy = star.baseY - star.y;
-          star.vx += returnDx * 0.005; // Very gentle return
-          star.vy += returnDy * 0.005;
-        }
-
-        // Apply velocity with stronger damping for slower movement
-        star.vx *= 0.96;
-        star.vy *= 0.96;
-        star.x += star.vx;
-        star.y += star.vy;
-
-        // Keep stars within bounds
-        if (star.x < 0 || star.x > w) {
-          star.x = Math.max(0, Math.min(w, star.x));
-          star.vx *= -0.5;
-        }
-        if (star.y < 0 || star.y > h) {
-          star.y = Math.max(0, Math.min(h, star.y));
-          star.vy *= -0.5;
-        }
-
-        // Draw slightly bigger star with slight glow
-        const size = 0.8; // Slightly bigger stars
-        const brightness = 0.9;
-        
-        // Outer glow
-        c.beginPath();
-        c.fillStyle = `rgba(255, 255, 255, ${brightness * 0.2})`;
-        c.arc(star.x, star.y, size * 2, 0, Math.PI * 2);
-        c.fill();
-        
-        // Main star
-        c.beginPath();
-        c.fillStyle = `rgba(255, 255, 255, ${brightness})`;
-        c.arc(star.x, star.y, size, 0, Math.PI * 2);
-        c.fill();
-      });
-
-      animationFrameRef.current = requestAnimationFrame(update);
-    };
-
-    // Start animation
-    update();
-
-    // Add event listeners
+    resize();
+    frame();
     window.addEventListener("resize", resize);
-    window.addEventListener("pointermove", handlePointerMove);
-    window.addEventListener("mousemove", handlePointerMove);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("wheel", onWheel, { passive: true });
 
-    // Cleanup
     return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-      if (mouseMoveTimeout.current) {
-        clearTimeout(mouseMoveTimeout.current);
-      }
+      cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("mousemove", handlePointerMove);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("wheel", onWheel);
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="starfield-canvas" />;
+  return <canvas ref={canvasRef} className="starfield-canvas" aria-hidden="true" />;
 };
 
 export default StarfieldBackground;
-
